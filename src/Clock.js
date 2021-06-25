@@ -10,24 +10,8 @@ export default function Clock() {
         return (increment / step) * 360
     }
 
-    const clockRun = (secondHand, minuteHand, hourHand) => {
-        setSecs(secs + 1)
-        const secDegrees = toDegrees(secs, 60)
-        secondHand.style.transform = `rotate(${secDegrees}deg)`
-        if((secs % 60) === 0){
-          setMins(mins + 1)
-          const minDegrees = toDegrees(mins, 60)
-          minuteHand.style.transform = `rotate(${minDegrees}deg)`
-        }
-        if((secs % 3600) === 0){
-          setHours(hours + 1)
-          const hourDegrees = toDegrees(hours, 12)
-          hourHand.style.transform = `rotate(${hourDegrees}deg)`
-        }
-      }
-
-    const stopTimer = (timer) => {
-        return clearInterval(timer)
+    const stopTimer = () => {
+        clearInterval(intervalHolder)
     }
 
     useEffect(() => {
@@ -35,11 +19,28 @@ export default function Clock() {
         const minuteHand = document.getElementById("minute")
         const hourHand = document.getElementById("hour")
 
-        let intervalRun = setInterval(clockRun(secondHand, minuteHand, hourHand), 1000)
+        let intervalRun = setInterval(() => {
+            let newSecs = secs + 1
+            setSecs(newSecs)
+            const secDegrees = toDegrees(secs, 60)
+            secondHand.style.transform = `rotate(${secDegrees}deg)`
+            if((secs % 60) === 0){
+              let newMins = mins + 1
+              setMins(newMins)
+              const minDegrees = toDegrees(mins, 60)
+              minuteHand.style.transform = `rotate(${minDegrees}deg)`
+            }
+            if((secs % 3600) === 0){
+              let newHours = hours + 1
+              setHours(newHours)
+              const hourDegrees = toDegrees(hours, 12)
+              hourHand.style.transform = `rotate(${hourDegrees}deg)`
+            }
+          }, 1000)
         setIntervalHolder(intervalRun)
-        clearInterval(intervalHolder)
-
-    }, [])
+        console.log(intervalHolder)
+        return clearInterval(intervalHolder)
+    }, [secs])
 
    return (
     <div id="clock">
