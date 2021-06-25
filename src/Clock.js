@@ -5,6 +5,13 @@ export default function Clock() {
    const [mins, setMins] = useState(0)
    const [hours, setHours] = useState(0)
 
+    useEffect(() => {
+        const secondHand = document.getElementById("second")
+        const minuteHand = document.getElementById("minute")
+        const hourHand = document.getElementById("hour")
+
+        
+    }, [])
 
    return (
     <div id="clock">
